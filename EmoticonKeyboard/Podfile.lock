@@ -1,0 +1,28 @@
+PODS:
+  - Realm (0.92.1):
+    - Realm/Headers (= 0.92.1)
+  - Realm/Headers (0.92.1)
+  - RealmSwift (0.92.1):
+    - Realm (= 0.92.1)
+  - ZLBalancedFlowLayout (0.0.2)
+
+DEPENDENCIES:
+  - Realm (from `https://github.com/realm/realm-cocoa.git`)
+  - RealmSwift
+  - ZLBalancedFlowLayout
+
+EXTERNAL SOURCES:
+  Realm:
+    :git: https://github.com/realm/realm-cocoa.git
+
+CHECKOUT OPTIONS:
+  Realm:
+    :commit: de07daa4d93cdcda10eab6cba7e1605376392301
+    :git: https://github.com/realm/realm-cocoa.git
+
+SPEC CHECKSUMS:
+  Realm: 10c91667c5c65d6fe56b206c2c31e9b5eafb8718
+  RealmSwift: edc7963f64c50852992751ba274ee506a0d104b2
+  ZLBalancedFlowLayout: 067157ef9efeec30ff145ee91d3ff806d73cc489
+
+COCOAPODS: 0.37.1

@@ -1,0 +1,581 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		099066AD1AFB42AB0021C79A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066AC1AFB42AB0021C79A /* AppDelegate.swift */; };
+		099066AF1AFB42AB0021C79A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066AE1AFB42AB0021C79A /* ViewController.swift */; };
+		099066B21AFB42AB0021C79A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099066B01AFB42AB0021C79A /* Main.storyboard */; };
+		099066B41AFB42AB0021C79A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099066B31AFB42AB0021C79A /* Images.xcassets */; };
+		099066B71AFB42AB0021C79A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 099066B51AFB42AB0021C79A /* LaunchScreen.xib */; };
+		099066C31AFB42AB0021C79A /* EmoticonKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066C21AFB42AB0021C79A /* EmoticonKeyboardTests.swift */; };
+		099066D11AFB49FF0021C79A /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066D01AFB49FF0021C79A /* RealmModels.swift */; };
+		305837A6BA904BFB9ABAF3A7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		A31A0B05BC2A271F15BA3A47 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		099066BD1AFB42AB0021C79A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0990669F1AFB42AB0021C79A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 099066A61AFB42AB0021C79A;
+			remoteInfo = EmoticonKeyboard;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		099066CF1AFB48A30021C79A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		099066A71AFB42AB0021C79A /* EmoticonKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmoticonKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		099066AB1AFB42AB0021C79A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		099066AC1AFB42AB0021C79A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		099066AE1AFB42AB0021C79A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		099066B11AFB42AB0021C79A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		099066B31AFB42AB0021C79A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		099066B61AFB42AB0021C79A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		099066BC1AFB42AB0021C79A /* EmoticonKeyboardTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmoticonKeyboardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		099066C11AFB42AB0021C79A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		099066C21AFB42AB0021C79A /* EmoticonKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonKeyboardTests.swift; sourceTree = "<group>"; };
+		099066D01AFB49FF0021C79A /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
+		ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		099066A41AFB42AB0021C79A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A31A0B05BC2A271F15BA3A47 /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		099066B91AFB42AB0021C79A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				305837A6BA904BFB9ABAF3A7 /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0990669E1AFB42AB0021C79A = {
+			isa = PBXGroup;
+			children = (
+				099066A91AFB42AB0021C79A /* EmoticonKeyboard */,
+				099066BF1AFB42AB0021C79A /* EmoticonKeyboardTests */,
+				099066A81AFB42AB0021C79A /* Products */,
+				F069EF48E4D90F9F8E3CDA99 /* Pods */,
+				D6A3498AED31AC5C9D7BE276 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		099066A81AFB42AB0021C79A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				099066A71AFB42AB0021C79A /* EmoticonKeyboard.app */,
+				099066BC1AFB42AB0021C79A /* EmoticonKeyboardTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		099066A91AFB42AB0021C79A /* EmoticonKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+				099066AC1AFB42AB0021C79A /* AppDelegate.swift */,
+				099066AE1AFB42AB0021C79A /* ViewController.swift */,
+				099066D01AFB49FF0021C79A /* RealmModels.swift */,
+				099066B01AFB42AB0021C79A /* Main.storyboard */,
+				099066B31AFB42AB0021C79A /* Images.xcassets */,
+				099066B51AFB42AB0021C79A /* LaunchScreen.xib */,
+				099066AA1AFB42AB0021C79A /* Supporting Files */,
+			);
+			path = EmoticonKeyboard;
+			sourceTree = "<group>";
+		};
+		099066AA1AFB42AB0021C79A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				099066AB1AFB42AB0021C79A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		099066BF1AFB42AB0021C79A /* EmoticonKeyboardTests */ = {
+			isa = PBXGroup;
+			children = (
+				099066C21AFB42AB0021C79A /* EmoticonKeyboardTests.swift */,
+				099066C01AFB42AB0021C79A /* Supporting Files */,
+			);
+			path = EmoticonKeyboardTests;
+			sourceTree = "<group>";
+		};
+		099066C01AFB42AB0021C79A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				099066C11AFB42AB0021C79A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D6A3498AED31AC5C9D7BE276 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F069EF48E4D90F9F8E3CDA99 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */,
+				ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		099066A61AFB42AB0021C79A /* EmoticonKeyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 099066C61AFB42AB0021C79A /* Build configuration list for PBXNativeTarget "EmoticonKeyboard" */;
+			buildPhases = (
+				8E8D8F0176DC35120E6DCF19 /* Check Pods Manifest.lock */,
+				099066A31AFB42AB0021C79A /* Sources */,
+				099066A41AFB42AB0021C79A /* Frameworks */,
+				099066A51AFB42AB0021C79A /* Resources */,
+				219A99D818EE41B8680595A4 /* Embed Pods Frameworks */,
+				316E113B21E1A0C327A97E26 /* Copy Pods Resources */,
+				099066CF1AFB48A30021C79A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EmoticonKeyboard;
+			productName = EmoticonKeyboard;
+			productReference = 099066A71AFB42AB0021C79A /* EmoticonKeyboard.app */;
+			productType = "com.apple.product-type.application";
+		};
+		099066BB1AFB42AB0021C79A /* EmoticonKeyboardTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 099066C91AFB42AB0021C79A /* Build configuration list for PBXNativeTarget "EmoticonKeyboardTests" */;
+			buildPhases = (
+				DD50E107A5AD2CE7EF06E658 /* Check Pods Manifest.lock */,
+				099066B81AFB42AB0021C79A /* Sources */,
+				099066B91AFB42AB0021C79A /* Frameworks */,
+				099066BA1AFB42AB0021C79A /* Resources */,
+				94A2CEA2B5C26244A900EEDF /* Embed Pods Frameworks */,
+				3F7F4DB80AC5B071154E8292 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				099066BE1AFB42AB0021C79A /* PBXTargetDependency */,
+			);
+			name = EmoticonKeyboardTests;
+			productName = EmoticonKeyboardTests;
+			productReference = 099066BC1AFB42AB0021C79A /* EmoticonKeyboardTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0990669F1AFB42AB0021C79A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Zhixuan Lai";
+				TargetAttributes = {
+					099066A61AFB42AB0021C79A = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					099066BB1AFB42AB0021C79A = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = 099066A61AFB42AB0021C79A;
+					};
+				};
+			};
+			buildConfigurationList = 099066A21AFB42AB0021C79A /* Build configuration list for PBXProject "EmoticonKeyboard" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0990669E1AFB42AB0021C79A;
+			productRefGroup = 099066A81AFB42AB0021C79A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				099066A61AFB42AB0021C79A /* EmoticonKeyboard */,
+				099066BB1AFB42AB0021C79A /* EmoticonKeyboardTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		099066A51AFB42AB0021C79A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				099066B21AFB42AB0021C79A /* Main.storyboard in Resources */,
+				099066B71AFB42AB0021C79A /* LaunchScreen.xib in Resources */,
+				099066B41AFB42AB0021C79A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		099066BA1AFB42AB0021C79A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		219A99D818EE41B8680595A4 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		316E113B21E1A0C327A97E26 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3F7F4DB80AC5B071154E8292 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8E8D8F0176DC35120E6DCF19 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		94A2CEA2B5C26244A900EEDF /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD50E107A5AD2CE7EF06E658 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		099066A31AFB42AB0021C79A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				099066D11AFB49FF0021C79A /* RealmModels.swift in Sources */,
+				099066AF1AFB42AB0021C79A /* ViewController.swift in Sources */,
+				099066AD1AFB42AB0021C79A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		099066B81AFB42AB0021C79A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				099066C31AFB42AB0021C79A /* EmoticonKeyboardTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		099066BE1AFB42AB0021C79A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 099066A61AFB42AB0021C79A /* EmoticonKeyboard */;
+			targetProxy = 099066BD1AFB42AB0021C79A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		099066B01AFB42AB0021C79A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				099066B11AFB42AB0021C79A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		099066B51AFB42AB0021C79A /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				099066B61AFB42AB0021C79A /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		099066C41AFB42AB0021C79A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		099066C51AFB42AB0021C79A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		099066C71AFB42AB0021C79A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = EmoticonKeyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		099066C81AFB42AB0021C79A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = EmoticonKeyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		099066CA1AFB42AB0021C79A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EmoticonKeyboardTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EmoticonKeyboard.app/EmoticonKeyboard";
+			};
+			name = Debug;
+		};
+		099066CB1AFB42AB0021C79A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = EmoticonKeyboardTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EmoticonKeyboard.app/EmoticonKeyboard";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		099066A21AFB42AB0021C79A /* Build configuration list for PBXProject "EmoticonKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				099066C41AFB42AB0021C79A /* Debug */,
+				099066C51AFB42AB0021C79A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		099066C61AFB42AB0021C79A /* Build configuration list for PBXNativeTarget "EmoticonKeyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				099066C71AFB42AB0021C79A /* Debug */,
+				099066C81AFB42AB0021C79A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		099066C91AFB42AB0021C79A /* Build configuration list for PBXNativeTarget "EmoticonKeyboardTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				099066CA1AFB42AB0021C79A /* Debug */,
+				099066CB1AFB42AB0021C79A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0990669F1AFB42AB0021C79A /* Project object */;
+}
