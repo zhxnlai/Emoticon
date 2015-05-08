@@ -11,6 +11,8 @@ import RealmSwift
 import SwiftyJSON
 import ZLBalancedFlowLayout
 
+let appGroupId = "group.com.axcel.EmoticonKeyboard"
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -31,6 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.makeKeyAndVisible()
         }
         initRealmIfNeeded()
+        
+        let sharedDefaults = NSUserDefaults(suiteName: appGroupId)!
+        sharedDefaults.setBool(true, forKey: "fullAccess")
+        sharedDefaults.synchronize()
+
         return true
     }
 
@@ -57,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func initRealmIfNeeded() {
-        let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.axcel.EmoticonKeyboard")!
+        let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(appGroupId)!
         let realmPath = directory.path!.stringByAppendingPathComponent("default.realm")
         Realm.defaultPath = realmPath
 

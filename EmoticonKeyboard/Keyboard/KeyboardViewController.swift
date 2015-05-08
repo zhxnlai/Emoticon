@@ -10,170 +10,205 @@ import UIKit
 import RealmSwift
 import ZLBalancedFlowLayout
 import Cartography
+import TTTAttributedLabel
 
 let reuseIdentifier = "Cell", headerIdentifier = "header", footerIdentifier = "footer"
 let appGroupId = "group.com.axcel.EmoticonKeyboard"
 
-class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
-
-    @IBOutlet var nextKeyboardButton: UIButton!
-    var menuButton: UIButton!
-    var enterButton: UIButton!
-    var deleteButton: UIButton!
-    
-    var openAccessLabel: UILabel?
-
-    let group = ConstraintGroup()
-
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-    
-        // Add custom view sizing constraints here
-        
-    }
-    
-    var rootCategories : Results<RootCategory>!
-    var currentCategory: Category? {
-        didSet {
-            emoticonsCollectionView?.reloadData()
-        }
-    }
-    var notificationToken: NotificationToken?
-
-    var categoriesCollectionView: UICollectionView?
-    var emoticonsCollectionView: UICollectionView?
+class KeyboardViewController: UIInputViewController {
 
     var collectionViews = UIView()
     var controlViews = UIView()
+
+    var nextKeyboardButton: UIButton!
+    var menuButton: UIButton!
+    var spaceButton: UIButton!
+    var enterButton: UIButton!
+    var deleteButton: UIButton!
+    
+    var openAccessLabel = UILabel()
+
+    var categoriesCollectionView: UICollectionView!
+    var emoticonsCollectionView: UICollectionView!
+    
+    var categoriesCollectionViewDataSourceDelegate = EKCategoriesCollectionViewDataSourceDelegate()
+    var emoticonsCollectionViewDataSourceDelegate = EKEmoticonsCollectionViewDataSourceDelegate()
+    
+    var rootCategories : Results<RootCategory>! {
+        didSet {
+            categoriesCollectionViewDataSourceDelegate.rootCategories = rootCategories
+            categoriesCollectionView?.reloadData()
+        }
+    }
+    var currentCategory: Category? {
+        didSet {
+            emoticonsCollectionViewDataSourceDelegate.category = currentCategory
+            emoticonsCollectionView?.reloadData()
+        }
+    }
+    
+    var notificationToken: NotificationToken?
+    
+    // MARK: Input View Constraints
+    let portraitHeight = 300, landscapeHeight = 200
+    var heightConstraint: NSLayoutConstraint?
+    var widthConstraint: NSLayoutConstraint?
+    var isProtrait = true
+    
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
+        // Add custom view sizing constraints here
+        updateInputViewConstraints()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        view.setNeedsUpdateConstraints()
+    }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-//        let screenSize = UIScreen.mainScreen().bounds.size
-//        let screenH = screenSize.height;
-//        let screenW = screenSize.width;
-//        let isLandscape =  view.frame.size.width >= screenW-10
-//        println(isLandscape ? "Screen: Landscape" : "Screen: Potriaint")
-//        var height = isLandscape ? 125 : 300
-//        
-//        layout(view!, replace: group) { view1 in
-//            view1.height == CGFloat(height) ~ 901
-//            view1.width == screenW  ~ 900
-//        }
-
-//        view.setNeedsUpdateConstraints()
+        if isOpenAccessGranted() {
+            openAccessLabel.hidden = true
+        } else {
+            openAccessLabel.hidden = false
+        }
+        
+        isProtrait = UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height
+        var height = isProtrait ? portraitHeight : landscapeHeight
+        heightConstraint = NSLayoutConstraint(item: view!, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0, constant: CGFloat(height))
+        heightConstraint!.priority = 900
+        view.addConstraint(heightConstraint!)
+        
+        widthConstraint = NSLayoutConstraint(item: view!, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 0, constant: UIScreen.mainScreen().bounds.width)
+        widthConstraint!.priority = 950
+        view.addConstraint(widthConstraint!)
+    }
+    
+    func updateInputViewConstraints() {
+        if self.view.frame.size.width == 0 || self.view.frame.size.height == 0 || isProtrait == (UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height) {
+            return
+        }
+        if var heightConstraint = heightConstraint, widthConstraint = widthConstraint {
+            view!.removeConstraint(heightConstraint)
+            isProtrait = UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height
+            var height = isProtrait ? portraitHeight : landscapeHeight
+            self.heightConstraint!.constant = CGFloat(height)
+            view!.addConstraint(heightConstraint)
+            
+            view!.removeConstraint(widthConstraint)
+            self.widthConstraint!.constant = UIScreen.mainScreen().bounds.width
+            view!.addConstraint(widthConstraint)
+        }
+    }
+    
+    // MARK: Life Cycle
+    deinit {
+        if let notificationToken = notificationToken {
+            Realm().removeNotification(notificationToken)
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-    
-        // next menu space return delete
-        
-        // Perform custom UI setup here
-        nextKeyboardButton = UIButton.buttonWithType(.System) as! UIButton
-        nextKeyboardButton.setTitle(NSLocalizedString("🌐", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
-        nextKeyboardButton.sizeToFit()
-        nextKeyboardButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
-        
-        menuButton = UIButton.buttonWithType(.System) as! UIButton
-        menuButton.setTitle(NSLocalizedString("✔️", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
-        menuButton.sizeToFit()
-        menuButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        menuButton.addTarget(self, action: "showMenu", forControlEvents: .TouchUpInside)
-        
-        enterButton = UIButton.buttonWithType(.System) as! UIButton
-        enterButton.setTitle(NSLocalizedString("➕", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
-        enterButton.sizeToFit()
-        enterButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        enterButton.addTarget(self, action: "insertReturn", forControlEvents: .TouchUpInside)
-        
-        deleteButton = UIButton.buttonWithType(.System) as! UIButton
-        deleteButton.setTitle(NSLocalizedString("🔚", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
-        deleteButton.sizeToFit()
-        deleteButton.setTranslatesAutoresizingMaskIntoConstraints(false)
-        deleteButton.addTarget(self, action: "deleteText", forControlEvents: .TouchUpInside)
-        
-        controlViews.addSubview(nextKeyboardButton)
-        controlViews.addSubview(menuButton)
-        controlViews.addSubview(enterButton)
-        controlViews.addSubview(deleteButton)
-        
-        layout(nextKeyboardButton, controlViews) { view1, view2 in
-            view1.left == view2.left
-            view1.centerY == view2.centerY
+        // Top level view containers
+        for subview in [collectionViews, controlViews, openAccessLabel] {
+            subview.setTranslatesAutoresizingMaskIntoConstraints(false)
+            view.addSubview(subview)
         }
+        view.backgroundColor = UIColor.whiteColor()
         
-        layout(deleteButton, controlViews) { view1, view2 in
-            view1.right == view2.right
-            view1.centerY == view2.centerY
-        }
+        openAccessLabel.text = "Please allow full access in Settings > General > Keyboard > Keyboards"
+        openAccessLabel.numberOfLines = 0
+        openAccessLabel.textColor = UIColor.blackColor()
+        openAccessLabel.sizeToFit()
+        openAccessLabel.hidden = true
+        view.addSubview(openAccessLabel)
         
-        layout(menuButton, nextKeyboardButton) { view1, view2 in
-            view1.left == view2.right + 20
-            view1.bottom == view2.bottom
-        }
+        view.setTranslatesAutoresizingMaskIntoConstraints(false)
         
-        layout(enterButton, deleteButton) { view1, view2 in
-            view1.right == view2.left - 20
-            view1.bottom == view2.bottom
-        }
-        
-//        collectionViews.backgroundColor = UIColor.redColor()
-//        controlViews.backgroundColor = UIColor.blueColor()
-        
-        view.addSubview(collectionViews)
-        view.addSubview(controlViews)
-        collectionViews.setTranslatesAutoresizingMaskIntoConstraints(false)
-        controlViews.setTranslatesAutoresizingMaskIntoConstraints(false)
-//        view.setTranslatesAutoresizingMaskIntoConstraints(false)
-
         layout(collectionViews, controlViews) { view1, view2 in
-//            view1.width   == (view1.superview!.width)
-//            view2.width   == view1.width
             view1.left == view1.superview!.left
             view2.left == view1.left
             view1.right == view1.superview!.right
             view2.right == view1.right
-
+            
             view1.top == view1.superview!.top
             view1.bottom  == view2.top
             view2.bottom == view2.superview!.bottom ~ 100
-            
-//            view1.height  == view1.superview!.height - 40  ~ 100
-            view2.height  == 40 ~ 100
+            view2.height  == 40 ~ 200
+        }
+        
+        layout(openAccessLabel, collectionViews) { view1, view2 in
+            view1.centerX == view2.centerX
+            view1.centerY == view2.centerY
+            view1.left == view1.superview!.left
+            view1.right == view1.superview!.right
+        }
+        
+        // Buttons: next menu space return delete
+        nextKeyboardButton = UIButton.buttonWithType(.System) as! UIButton
+        nextKeyboardButton.setTitle(NSLocalizedString("🌐", comment: "Title for 'Next Keyboard' button"), forState: .Normal)
+        nextKeyboardButton.addTarget(self, action: "advanceToNextInputMode", forControlEvents: .TouchUpInside)
+        
+        menuButton = UIButton.buttonWithType(.System) as! UIButton
+        menuButton.setTitle(NSLocalizedString("🚀", comment: "Title for 'Menu' button"), forState: .Normal)
+        menuButton.addTarget(self, action: "showMenu", forControlEvents: .TouchUpInside)
+        
+        spaceButton = UIButton.buttonWithType(.System) as! UIButton
+        spaceButton.setTitle(NSLocalizedString("Space", comment: "Title for 'Space' button"), forState: .Normal)
+        spaceButton.addTarget(self, action: "insertSpace", forControlEvents: .TouchUpInside)
+
+        enterButton = UIButton.buttonWithType(.System) as! UIButton
+        enterButton.setTitle(NSLocalizedString("⏎", comment: "Title for 'Enter' button"), forState: .Normal)
+        enterButton.addTarget(self, action: "insertReturn", forControlEvents: .TouchUpInside)
+        
+        deleteButton = UIButton.buttonWithType(.System) as! UIButton
+        deleteButton.setTitle(NSLocalizedString("⌫", comment: "Title for 'Delete' button"), forState: .Normal)
+        deleteButton.addTarget(self, action: "deleteText", forControlEvents: .TouchUpInside)
+        
+        for button in [nextKeyboardButton, menuButton, spaceButton, enterButton, deleteButton] {
+            button.sizeToFit()
+            button.setTranslatesAutoresizingMaskIntoConstraints(false)
+            button.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 18)
+            controlViews.addSubview(button)
+        }
+        
+        // layout
+        layout(nextKeyboardButton, controlViews) { view1, view2 in
+            view1.left == view2.left+10
+            view1.centerY == view2.centerY
+        }
+        
+        layout(deleteButton, controlViews) { view1, view2 in
+            view1.right == view2.right-10
+            view1.centerY == view2.centerY
+        }
+        
+        layout(spaceButton, controlViews) { view1, view2 in
+            view1.centerX == view2.centerX
+            view1.centerY == view2.centerY
+        }
+
+        layout(menuButton, nextKeyboardButton) { view1, view2 in
+            view1.left == view2.right + 20
+            view1.centerY == view2.centerY
+        }
+        
+        layout(enterButton, deleteButton) { view1, view2 in
+            view1.right == view2.left - 20
+            view1.centerY == view2.centerY
         }
         
 
-//        if !isOpenAccessGranted() {
-//            openAccessLabel = UILabel()
-//            openAccessLabel!.text = "Please allow full access in Settings > General > Keyboard > Keyboards"
-//            openAccessLabel!.numberOfLines = 0
-//            openAccessLabel!.textColor = UIColor.blackColor()
-//            openAccessLabel!.sizeToFit()
-//            collectionViews.addSubview(openAccessLabel!)
-//
-//            layout(openAccessLabel!, collectionViews) { view1, view2 in
-//                view1.top == view2.top
-//                view1.bottom == view2.bottom
-//                view1.left == view2.left
-//                view1.right == view2.right
-//            }
-//            return
-//        } else {
-//            initializeRealm()
-//        }
-        
-        initializeRealm()
-
-        
+        if isOpenAccessGranted() {
+            initializeRealm()
+        }
     }
     
     func initializeRealm() {
-        
-        openAccessLabel?.removeFromSuperview()
-        openAccessLabel = nil
         
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(appGroupId)!
         let realmPath = directory.path!.stringByAppendingPathComponent("default.realm")
@@ -189,13 +224,13 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         layout1.enforcesRowHeight = true
         layout1.minimumLineSpacing = 0
         layout1.minimumInteritemSpacing = 5
-        
         categoriesCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout1)
         categoriesCollectionView?.backgroundColor = UIColor.whiteColor()
-        categoriesCollectionView!.registerClass(EKCategoryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        categoriesCollectionView?.delegate = self
-        categoriesCollectionView?.dataSource = self
+        categoriesCollectionView?.registerClass(EKCategoryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        categoriesCollectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        categoriesCollectionView?.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
+        categoriesCollectionView?.delegate = categoriesCollectionViewDataSourceDelegate
+        categoriesCollectionView?.dataSource = categoriesCollectionViewDataSourceDelegate
         
         var layout2 = ZLBalancedFlowLayout()
         layout2.headerReferenceSize = CGSizeZero
@@ -205,33 +240,36 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         layout2.enforcesRowHeight = true
         layout2.minimumLineSpacing = 0
         layout2.minimumInteritemSpacing = 5
-        
         emoticonsCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout2)
         emoticonsCollectionView?.backgroundColor = UIColor.whiteColor()
-        emoticonsCollectionView!.registerClass(EKEmoticonCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        emoticonsCollectionView?.delegate = self
-        emoticonsCollectionView?.dataSource = self
+        emoticonsCollectionView?.registerClass(EKEmoticonCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        emoticonsCollectionView?.delegate = emoticonsCollectionViewDataSourceDelegate
+        emoticonsCollectionView?.dataSource = emoticonsCollectionViewDataSourceDelegate
         
         collectionViews.addSubview(emoticonsCollectionView!)
         collectionViews.addSubview(categoriesCollectionView!)
         
-        emoticonsCollectionView?.setTranslatesAutoresizingMaskIntoConstraints(false)
-        categoriesCollectionView?.setTranslatesAutoresizingMaskIntoConstraints(false)
-        
-        
-        layout(categoriesCollectionView!, collectionViews) { view1, view2 in
-            view1.top == view2.top
-            view1.bottom == view2.bottom
-            view1.left == view2.left
-            view1.right == view2.right
+        // callbacks
+        categoriesCollectionViewDataSourceDelegate.sectionHeaderFontSize = "3em"
+        categoriesCollectionViewDataSourceDelegate.didSelectCategory = {category in
+            self.currentCategory = category
+            self.categoriesCollectionView?.hidden = true
+        }
+        emoticonsCollectionViewDataSourceDelegate.didSelectEmoticon = {emoticon in
+            self.insertText(emoticon.value)
         }
         
-        layout(emoticonsCollectionView!, collectionViews) { view1, view2 in
-            view1.top == view2.top
-            view1.bottom == view2.bottom
-            view1.left == view2.left
-            view1.right == view2.right
+        // layout
+        
+        for collectionView in [categoriesCollectionView!, emoticonsCollectionView!] {
+            collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+            layout(collectionView, collectionViews) { view1, view2 in
+                view1.top == view2.top
+                view1.bottom == view2.bottom
+                view1.left == view2.left
+                view1.right == view2.right
+            }
+            collectionView.reloadData()
         }
         
         // Set realm notification block
@@ -240,110 +278,11 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
             self.emoticonsCollectionView?.reloadData()
         }
         
-        categoriesCollectionView?.reloadData()
-        emoticonsCollectionView?.reloadData()
-
-        view.layoutSubviews()
     }
-
-    // MARK: UICollectionViewDataSource
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if collectionView == categoriesCollectionView! {
-            return rootCategories!.count
-        } else if collectionView == emoticonsCollectionView! {
-            return 1
-        } else {
-            return 0
-        }
-    }
-    
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == categoriesCollectionView! {
-            return rootCategories![section].values.count
-        } else if collectionView == emoticonsCollectionView! {
-            if let currentCategory = currentCategory {
-                return currentCategory.values.count
-            }
-        }
-        return 0
-    }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        if collectionView == categoriesCollectionView! {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! EKCategoryCollectionViewCell
-            
-            let category = categoryForIndexPath(indexPath)
-            cell.title = category.name
-            
-            return cell
-        } else if collectionView == emoticonsCollectionView! {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! EKEmoticonCollectionViewCell
-            
-            // Configure the cell
-            cell.title = emoticonForIndexPath(indexPath).value
-            return cell
-        }
-        return UICollectionViewCell()
-    }
-    
-    func emoticonForIndexPath(indexPath: NSIndexPath) -> Emoticon {
-        return currentCategory!.values[indexPath.item]
-    }
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        collectionView.deselectItemAtIndexPath(indexPath, animated: false)
-        if collectionView == categoriesCollectionView! {
-            currentCategory = categoryForIndexPath(indexPath)
-            categoriesCollectionView?.hidden = true
-        } else {
-            let emoticon = emoticonForIndexPath(indexPath)
-            insertText(emoticon.value)
-        }
-    }
-
-    // MARK: - UICollectionViewDelegateFlowLayout
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        if collectionView == categoriesCollectionView! {
-            return sizeForString(categoryForIndexPath(indexPath).name)
-        } else {
-            return sizeForString(emoticonForIndexPath(indexPath).value)
-        }
-
-    }
-
-    // MARK: - ()
-    func categoryForIndexPath(indexPath: NSIndexPath) -> Category {
-        return rootCategories![indexPath.section].values[indexPath.item]
-    }
-
-    var sizeCache = [String: CGSize]()
-    func sizeForString(text: String) -> CGSize {
-        if let cached = sizeCache[text] {
-            return cached
-        }
-        var size = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(14.0)])
-        size = CGSize(width: min(320, size.width), height: size.height)
-        sizeCache[text] = size
-        return size
-    }
-    
-//    func isOpenAccessGranted() -> Bool {
-//        return UIPasteboard.generalPasteboard().isKindOfClass(UIPasteboard)
-//    }
     
     func isOpenAccessGranted() -> Bool {
-        let fm = NSFileManager.defaultManager()
-        let containerPath = fm.containerURLForSecurityApplicationGroupIdentifier(appGroupId)?.path!.stringByAppendingPathComponent("default.realm")
-        var error: NSError?
-        fm.contentsOfDirectoryAtPath(containerPath!, error: &error)
-        if (error != nil) {
-            NSLog("Full Access: Off")
-            return false
-        }
-        NSLog("Full Access: On");
-        return true
+        return UIPasteboard.generalPasteboard().isKindOfClass(UIPasteboard)
     }
-
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -359,6 +298,10 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         var proxy = self.textDocumentProxy as! UITextDocumentProxy
         proxy.deleteBackward()
     }
+    func insertSpace() {
+        var proxy = self.textDocumentProxy as! UITextDocumentProxy
+        proxy.insertText(" ")
+    }
     func insertReturn() {
         var proxy = self.textDocumentProxy as! UITextDocumentProxy
         proxy.insertText("\n")
@@ -367,7 +310,7 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         categoriesCollectionView?.hidden = false
     }
 
-
+    // MARK: UIInputController
     override func textWillChange(textInput: UITextInput) {
         // The app is about to change the document's contents. Perform any preparation here.
     }
@@ -385,5 +328,4 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         self.nextKeyboardButton.setTitleColor(textColor, forState: .Normal)
     }
 
-    
 }
