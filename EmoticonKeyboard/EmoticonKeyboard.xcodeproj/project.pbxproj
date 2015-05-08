@@ -25,7 +25,10 @@
 		099066E81AFB5C600021C79A /* EKMainCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066E71AFB5C600021C79A /* EKMainCollectionViewController.swift */; };
 		099066EA1AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066E91AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift */; };
 		09EF2F9E1AFD352700CFF0A8 /* EKSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0976FC871AFBDB1C00FEBE84 /* EKSectionHeaderView.swift */; };
-		09EF2FA01AFD391A00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF2F9F1AFD391A00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift */; };
+		09EF2FA01AFD391A00CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF2F9F1AFD391A00CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift */; };
+		09EF2FA21AFD528D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF2FA11AFD528D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift */; };
+		09EF2FA31AFD584900CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF2F9F1AFD391A00CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift */; };
+		09EF2FA41AFD584D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF2FA11AFD528D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift */; };
 		305837A6BA904BFB9ABAF3A7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		8852C81E81A063748C294E8E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A31A0B05BC2A271F15BA3A47 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -94,7 +97,8 @@
 		099066E41AFB580D0021C79A /* Keyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Keyboard.entitlements; sourceTree = "<group>"; };
 		099066E71AFB5C600021C79A /* EKMainCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKMainCollectionViewController.swift; sourceTree = "<group>"; };
 		099066E91AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
-		09EF2F9F1AFD391A00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKEmoticonsCollectionViewDataSourceDelegate.swift; sourceTree = "<group>"; };
+		09EF2F9F1AFD391A00CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKCategoriesCollectionViewDataSourceDelegate.swift; sourceTree = "<group>"; };
+		09EF2FA11AFD528D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKEmoticonsCollectionViewDataSourceDelegate.swift; sourceTree = "<group>"; };
 		ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,8 +159,9 @@
 			children = (
 				099066AC1AFB42AB0021C79A /* AppDelegate.swift */,
 				099066E71AFB5C600021C79A /* EKMainCollectionViewController.swift */,
-				09EF2F9F1AFD391A00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift */,
+				09EF2F9F1AFD391A00CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift */,
 				0976FC891AFBE32300FEBE84 /* EKEmoticonsCollectionViewController.swift */,
+				09EF2FA11AFD528D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift */,
 				0976FC871AFBDB1C00FEBE84 /* EKSectionHeaderView.swift */,
 				099066E91AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift */,
 				0976FC8B1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift */,
@@ -508,11 +513,12 @@
 			files = (
 				0976FC8A1AFBE32300FEBE84 /* EKEmoticonsCollectionViewController.swift in Sources */,
 				099066D11AFB49FF0021C79A /* RealmModels.swift in Sources */,
-				09EF2FA01AFD391A00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift in Sources */,
+				09EF2FA01AFD391A00CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift in Sources */,
 				0976FC881AFBDB1C00FEBE84 /* EKSectionHeaderView.swift in Sources */,
 				0976FC8C1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift in Sources */,
 				099066AD1AFB42AB0021C79A /* AppDelegate.swift in Sources */,
 				099066EA1AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift in Sources */,
+				09EF2FA21AFD528D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift in Sources */,
 				099066E81AFB5C600021C79A /* EKMainCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -529,6 +535,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09EF2FA31AFD584900CFF0A8 /* EKCategoriesCollectionViewDataSourceDelegate.swift in Sources */,
+				09EF2FA41AFD584D00CFF0A8 /* EKEmoticonsCollectionViewDataSourceDelegate.swift in Sources */,
 				099066DB1AFB57ED0021C79A /* KeyboardViewController.swift in Sources */,
 				09EF2F9E1AFD352700CFF0A8 /* EKSectionHeaderView.swift in Sources */,
 				0976FC8D1AFBEB5000FEBE84 /* RealmModels.swift in Sources */,
