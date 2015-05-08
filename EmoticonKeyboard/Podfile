@@ -1,11 +1,14 @@
 # Uncomment this line to define a global platform for your project
 # platform :ios, '6.0'
 
+pod 'SwiftyJSON'
 pod 'ZLBalancedFlowLayout'
 pod 'Realm', git: 'https://github.com/realm/realm-cocoa.git'
 pod 'RealmSwift'
+pod 'TTTAttributedLabel'
+pod 'Cartography'
 
-link_with 'EmoticonKeyboard', 'EmoticonKeyboardTests'
+link_with 'EmoticonKeyboard', 'EmoticonKeyboardTests', 'Keyboard'
 use_frameworks!
 
 #target 'EmoticonKeyboard' do

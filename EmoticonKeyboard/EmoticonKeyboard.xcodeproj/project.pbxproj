@@ -7,14 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		092501BA1AFC747700BD119F /* EKEmoticonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0976FC8B1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift */; };
+		092501BB1AFC747A00BD119F /* EKCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066E91AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift */; };
+		0976FC861AFBC82F00FEBE84 /* compressed.json in Resources */ = {isa = PBXBuildFile; fileRef = 0976FC851AFBC82F00FEBE84 /* compressed.json */; };
+		0976FC881AFBDB1C00FEBE84 /* EKSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0976FC871AFBDB1C00FEBE84 /* EKSectionHeaderView.swift */; };
+		0976FC8A1AFBE32300FEBE84 /* EKEmoticonsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0976FC891AFBE32300FEBE84 /* EKEmoticonsCollectionViewController.swift */; };
+		0976FC8C1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0976FC8B1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift */; };
+		0976FC8D1AFBEB5000FEBE84 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066D01AFB49FF0021C79A /* RealmModels.swift */; };
 		099066AD1AFB42AB0021C79A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066AC1AFB42AB0021C79A /* AppDelegate.swift */; };
-		099066AF1AFB42AB0021C79A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066AE1AFB42AB0021C79A /* ViewController.swift */; };
 		099066B21AFB42AB0021C79A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 099066B01AFB42AB0021C79A /* Main.storyboard */; };
 		099066B41AFB42AB0021C79A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 099066B31AFB42AB0021C79A /* Images.xcassets */; };
 		099066B71AFB42AB0021C79A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 099066B51AFB42AB0021C79A /* LaunchScreen.xib */; };
 		099066C31AFB42AB0021C79A /* EmoticonKeyboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066C21AFB42AB0021C79A /* EmoticonKeyboardTests.swift */; };
 		099066D11AFB49FF0021C79A /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066D01AFB49FF0021C79A /* RealmModels.swift */; };
+		099066DB1AFB57ED0021C79A /* KeyboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066DA1AFB57ED0021C79A /* KeyboardViewController.swift */; };
+		099066DE1AFB57ED0021C79A /* Keyboard.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 099066D61AFB57ED0021C79A /* Keyboard.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		099066E81AFB5C600021C79A /* EKMainCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066E71AFB5C600021C79A /* EKMainCollectionViewController.swift */; };
+		099066EA1AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099066E91AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift */; };
 		305837A6BA904BFB9ABAF3A7 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		8852C81E81A063748C294E8E /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		A31A0B05BC2A271F15BA3A47 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -25,6 +36,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 099066A61AFB42AB0021C79A;
 			remoteInfo = EmoticonKeyboard;
+		};
+		099066DC1AFB57ED0021C79A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0990669F1AFB42AB0021C79A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 099066D51AFB57ED0021C79A;
+			remoteInfo = Keyboard;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -39,13 +57,27 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		099066E21AFB57ED0021C79A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				099066DE1AFB57ED0021C79A /* Keyboard.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0976FC851AFBC82F00FEBE84 /* compressed.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = compressed.json; path = ../../Resources/compressed.json; sourceTree = "<group>"; };
+		0976FC871AFBDB1C00FEBE84 /* EKSectionHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKSectionHeaderView.swift; sourceTree = "<group>"; };
+		0976FC891AFBE32300FEBE84 /* EKEmoticonsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKEmoticonsCollectionViewController.swift; sourceTree = "<group>"; };
+		0976FC8B1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKEmoticonCollectionViewCell.swift; sourceTree = "<group>"; };
 		099066A71AFB42AB0021C79A /* EmoticonKeyboard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmoticonKeyboard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		099066AB1AFB42AB0021C79A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		099066AC1AFB42AB0021C79A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		099066AE1AFB42AB0021C79A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		099066B11AFB42AB0021C79A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		099066B31AFB42AB0021C79A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		099066B61AFB42AB0021C79A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -53,6 +85,13 @@
 		099066C11AFB42AB0021C79A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		099066C21AFB42AB0021C79A /* EmoticonKeyboardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoticonKeyboardTests.swift; sourceTree = "<group>"; };
 		099066D01AFB49FF0021C79A /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
+		099066D61AFB57ED0021C79A /* Keyboard.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = Keyboard.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		099066D91AFB57ED0021C79A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		099066DA1AFB57ED0021C79A /* KeyboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardViewController.swift; sourceTree = "<group>"; };
+		099066E31AFB58040021C79A /* EmoticonKeyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = EmoticonKeyboard.entitlements; sourceTree = "<group>"; };
+		099066E41AFB580D0021C79A /* Keyboard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Keyboard.entitlements; sourceTree = "<group>"; };
+		099066E71AFB5C600021C79A /* EKMainCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKMainCollectionViewController.swift; sourceTree = "<group>"; };
+		099066E91AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EKCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		E4DD8A8A03687FD9F7B6B5A2 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -75,6 +114,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		099066D31AFB57ED0021C79A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8852C81E81A063748C294E8E /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -83,6 +130,7 @@
 			children = (
 				099066A91AFB42AB0021C79A /* EmoticonKeyboard */,
 				099066BF1AFB42AB0021C79A /* EmoticonKeyboardTests */,
+				099066D71AFB57ED0021C79A /* Keyboard */,
 				099066A81AFB42AB0021C79A /* Products */,
 				F069EF48E4D90F9F8E3CDA99 /* Pods */,
 				D6A3498AED31AC5C9D7BE276 /* Frameworks */,
@@ -94,6 +142,7 @@
 			children = (
 				099066A71AFB42AB0021C79A /* EmoticonKeyboard.app */,
 				099066BC1AFB42AB0021C79A /* EmoticonKeyboardTests.xctest */,
+				099066D61AFB57ED0021C79A /* Keyboard.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,11 +151,15 @@
 			isa = PBXGroup;
 			children = (
 				099066AC1AFB42AB0021C79A /* AppDelegate.swift */,
-				099066AE1AFB42AB0021C79A /* ViewController.swift */,
+				099066E71AFB5C600021C79A /* EKMainCollectionViewController.swift */,
+				0976FC891AFBE32300FEBE84 /* EKEmoticonsCollectionViewController.swift */,
+				0976FC871AFBDB1C00FEBE84 /* EKSectionHeaderView.swift */,
+				099066E91AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift */,
+				0976FC8B1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift */,
 				099066D01AFB49FF0021C79A /* RealmModels.swift */,
-				099066B01AFB42AB0021C79A /* Main.storyboard */,
 				099066B31AFB42AB0021C79A /* Images.xcassets */,
 				099066B51AFB42AB0021C79A /* LaunchScreen.xib */,
+				0976FC851AFBC82F00FEBE84 /* compressed.json */,
 				099066AA1AFB42AB0021C79A /* Supporting Files */,
 			);
 			path = EmoticonKeyboard;
@@ -115,6 +168,8 @@
 		099066AA1AFB42AB0021C79A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				099066B01AFB42AB0021C79A /* Main.storyboard */,
+				099066E31AFB58040021C79A /* EmoticonKeyboard.entitlements */,
 				099066AB1AFB42AB0021C79A /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -133,6 +188,24 @@
 			isa = PBXGroup;
 			children = (
 				099066C11AFB42AB0021C79A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		099066D71AFB57ED0021C79A /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				099066DA1AFB57ED0021C79A /* KeyboardViewController.swift */,
+				099066D81AFB57ED0021C79A /* Supporting Files */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		099066D81AFB57ED0021C79A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				099066E41AFB580D0021C79A /* Keyboard.entitlements */,
+				099066D91AFB57ED0021C79A /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -168,10 +241,12 @@
 				219A99D818EE41B8680595A4 /* Embed Pods Frameworks */,
 				316E113B21E1A0C327A97E26 /* Copy Pods Resources */,
 				099066CF1AFB48A30021C79A /* Embed Frameworks */,
+				099066E21AFB57ED0021C79A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				099066DD1AFB57ED0021C79A /* PBXTargetDependency */,
 			);
 			name = EmoticonKeyboard;
 			productName = EmoticonKeyboard;
@@ -199,6 +274,25 @@
 			productReference = 099066BC1AFB42AB0021C79A /* EmoticonKeyboardTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		099066D51AFB57ED0021C79A /* Keyboard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 099066E11AFB57ED0021C79A /* Build configuration list for PBXNativeTarget "Keyboard" */;
+			buildPhases = (
+				AC3FB1B3F8355C5D34612397 /* Check Pods Manifest.lock */,
+				099066D21AFB57ED0021C79A /* Sources */,
+				099066D31AFB57ED0021C79A /* Frameworks */,
+				099066D41AFB57ED0021C79A /* Resources */,
+				37BE29853C5DF9118FF7E0A8 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Keyboard;
+			productName = Keyboard;
+			productReference = 099066D61AFB57ED0021C79A /* Keyboard.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -210,10 +304,25 @@
 				TargetAttributes = {
 					099066A61AFB42AB0021C79A = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 6DSXGUT2JS;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					099066BB1AFB42AB0021C79A = {
 						CreatedOnToolsVersion = 6.3.1;
 						TestTargetID = 099066A61AFB42AB0021C79A;
+					};
+					099066D51AFB57ED0021C79A = {
+						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 6DSXGUT2JS;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -232,6 +341,7 @@
 			targets = (
 				099066A61AFB42AB0021C79A /* EmoticonKeyboard */,
 				099066BB1AFB42AB0021C79A /* EmoticonKeyboardTests */,
+				099066D51AFB57ED0021C79A /* Keyboard */,
 			);
 		};
 /* End PBXProject section */
@@ -241,6 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0976FC861AFBC82F00FEBE84 /* compressed.json in Resources */,
 				099066B21AFB42AB0021C79A /* Main.storyboard in Resources */,
 				099066B71AFB42AB0021C79A /* LaunchScreen.xib in Resources */,
 				099066B41AFB42AB0021C79A /* Images.xcassets in Resources */,
@@ -248,6 +359,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		099066BA1AFB42AB0021C79A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		099066D41AFB57ED0021C79A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -273,6 +391,21 @@
 			showEnvVarsInLog = 0;
 		};
 		316E113B21E1A0C327A97E26 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		37BE29853C5DF9118FF7E0A8 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -332,6 +465,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		AC3FB1B3F8355C5D34612397 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		DD50E107A5AD2CE7EF06E658 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,9 +502,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0976FC8A1AFBE32300FEBE84 /* EKEmoticonsCollectionViewController.swift in Sources */,
 				099066D11AFB49FF0021C79A /* RealmModels.swift in Sources */,
-				099066AF1AFB42AB0021C79A /* ViewController.swift in Sources */,
+				0976FC881AFBDB1C00FEBE84 /* EKSectionHeaderView.swift in Sources */,
+				0976FC8C1AFBE6FA00FEBE84 /* EKEmoticonCollectionViewCell.swift in Sources */,
 				099066AD1AFB42AB0021C79A /* AppDelegate.swift in Sources */,
+				099066EA1AFB5E6A0021C79A /* EKCategoryCollectionViewCell.swift in Sources */,
+				099066E81AFB5C600021C79A /* EKMainCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +520,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		099066D21AFB57ED0021C79A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				099066DB1AFB57ED0021C79A /* KeyboardViewController.swift in Sources */,
+				0976FC8D1AFBEB5000FEBE84 /* RealmModels.swift in Sources */,
+				092501BB1AFC747A00BD119F /* EKCategoryCollectionViewCell.swift in Sources */,
+				092501BA1AFC747700BD119F /* EKEmoticonCollectionViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -375,6 +538,11 @@
 			isa = PBXTargetDependency;
 			target = 099066A61AFB42AB0021C79A /* EmoticonKeyboard */;
 			targetProxy = 099066BD1AFB42AB0021C79A /* PBXContainerItemProxy */;
+		};
+		099066DD1AFB57ED0021C79A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 099066D51AFB57ED0021C79A /* Keyboard */;
+			targetProxy = 099066DC1AFB57ED0021C79A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -484,6 +652,7 @@
 			baseConfigurationReference = C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EmoticonKeyboard/EmoticonKeyboard.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -499,6 +668,7 @@
 			baseConfigurationReference = ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EmoticonKeyboard/EmoticonKeyboard.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -545,6 +715,40 @@
 			};
 			name = Release;
 		};
+		099066DF1AFB57ED0021C79A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C017966B9CF2DB576129C6C8 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Keyboard/Keyboard.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		099066E01AFB57ED0021C79A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ABD48A6F75988210B39EE54C /* Pods.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Keyboard/Keyboard.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = Keyboard/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -571,6 +775,15 @@
 			buildConfigurations = (
 				099066CA1AFB42AB0021C79A /* Debug */,
 				099066CB1AFB42AB0021C79A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		099066E11AFB57ED0021C79A /* Build configuration list for PBXNativeTarget "Keyboard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				099066DF1AFB57ED0021C79A /* Debug */,
+				099066E01AFB57ED0021C79A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

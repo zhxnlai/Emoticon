@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RealmSwift
+import SwiftyJSON
+import ZLBalancedFlowLayout
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +18,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        if let window = window {
+            var layout = ZLBalancedFlowLayout()
+            layout.headerReferenceSize = CGSize(width: 100, height: 100)
+            layout.footerReferenceSize = CGSize(width: 100, height: 100)
+            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            layout.rowHeight = 40
+            layout.minimumLineSpacing = 5
+            var viewController = EKMainCollectionViewController(collectionViewLayout: layout)
+            window.rootViewController = UINavigationController(rootViewController: viewController)
+            window.makeKeyAndVisible()
+        }
+        initRealmIfNeeded()
         return true
     }
 
@@ -41,6 +56,53 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
+    func initRealmIfNeeded() {
+        let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier("group.com.axcel.EmoticonKeyboard")!
+        let realmPath = directory.path!.stringByAppendingPathComponent("default.realm")
+        Realm.defaultPath = realmPath
+
+        let realm = Realm()
+        realm.write {
+            realm.deleteAll()
+        }
+
+        if realm.objects(Category).count > 0 && realm.objects(Emoticon).count > 0 {
+            return
+        }
+        
+        if let path = NSBundle.mainBundle().pathForResource("compressed", ofType: "json"), data = NSData(contentsOfFile: path) {
+            let rootCategories = JSON(data: data)
+            realm.write {
+                for (name: String, categories: JSON) in rootCategories {
+                    var rc = RootCategory()
+                    rc.name = name
+                    realm.add(rc)
+
+                    for (name: String, emoticons: JSON) in categories {
+                        var c = Category()
+                        c.name = name
+                        realm.add(c)
+                        rc.values.append(c)
+                        
+                        if let emoticons = emoticons.array {
+                            for value in emoticons {
+                                if let value = value.string {
+                                    var e = Emoticon()
+                                    e.value = value
+                                    e.owner = c
+                                    c.values.append(e)
+                                    realm.add(e)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            println("added categories: \(realm.objects(Category).count)")
+            println("added emoticons: \(realm.objects(Emoticon).count)")
+        }
+    }
 
 }
 

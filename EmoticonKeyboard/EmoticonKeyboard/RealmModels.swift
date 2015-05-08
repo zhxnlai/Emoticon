@@ -8,15 +8,20 @@
 
 import RealmSwift
 
-// Dog model
-class Dog: Object {
-    dynamic var name = ""
-    dynamic var owner: Person? // Can be optional
+// Emoticon model
+class Emoticon: Object {
+    dynamic var value = ""
+    dynamic var owner: Category? // Can be optional
 }
 
-// Person model
-class Person: Object {
+// Category model
+class Category: Object {
     dynamic var name = ""
-    dynamic var birthdate = NSDate(timeIntervalSince1970: 1)
-    let dogs = List<Dog>()
+    let values = List<Emoticon>()
+}
+
+// RootCategory model
+class RootCategory: Object {
+    dynamic var name = ""
+    let values = List<Category>()
 }

@@ -1,14 +1,20 @@
 PODS:
+  - Cartography (0.5.0)
   - Realm (0.92.1):
     - Realm/Headers (= 0.92.1)
   - Realm/Headers (0.92.1)
   - RealmSwift (0.92.1):
     - Realm (= 0.92.1)
+  - SwiftyJSON (2.2.0)
+  - TTTAttributedLabel (1.13.3)
   - ZLBalancedFlowLayout (0.0.2)
 
 DEPENDENCIES:
+  - Cartography
   - Realm (from `https://github.com/realm/realm-cocoa.git`)
   - RealmSwift
+  - SwiftyJSON
+  - TTTAttributedLabel
   - ZLBalancedFlowLayout
 
 EXTERNAL SOURCES:
@@ -21,8 +27,11 @@ CHECKOUT OPTIONS:
     :git: https://github.com/realm/realm-cocoa.git
 
 SPEC CHECKSUMS:
+  Cartography: 774e5cc446f5a6bca5d4345c5aa6af9a1fe74dc6
   Realm: 10c91667c5c65d6fe56b206c2c31e9b5eafb8718
   RealmSwift: edc7963f64c50852992751ba274ee506a0d104b2
+  SwiftyJSON: 0b3e6c07af17ff745e77e8e9984097b55c956e5c
+  TTTAttributedLabel: 6f3174aef8e738f44dff97c2eb7d8184f6ab6277
   ZLBalancedFlowLayout: 067157ef9efeec30ff145ee91d3ff806d73cc489
 
 COCOAPODS: 0.37.1
