@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import ZLBalancedFlowLayout
 import Cartography
+import TTTAttributedLabel
 
 let reuseIdentifier = "Cell", headerIdentifier = "header", footerIdentifier = "footer"
 let appGroupId = "group.com.axcel.EmoticonKeyboard"
@@ -25,12 +26,6 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
 
     let group = ConstraintGroup()
 
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-    
-        // Add custom view sizing constraints here
-        
-    }
     
     var rootCategories : Results<RootCategory>!
     var currentCategory: Category? {
@@ -46,6 +41,12 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
     var collectionViews = UIView()
     var controlViews = UIView()
     
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
+        // Add custom view sizing constraints here
+        
+    }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -62,6 +63,14 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
 //        }
 
 //        view.setNeedsUpdateConstraints()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        if UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height {
+            
+        } else {
+            
+        }
     }
     
     override func viewDidLoad() {
@@ -130,8 +139,6 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
 //        view.setTranslatesAutoresizingMaskIntoConstraints(false)
 
         layout(collectionViews, controlViews) { view1, view2 in
-//            view1.width   == (view1.superview!.width)
-//            view2.width   == view1.width
             view1.left == view1.superview!.left
             view2.left == view1.left
             view1.right == view1.superview!.right
@@ -140,8 +147,6 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
             view1.top == view1.superview!.top
             view1.bottom  == view2.top
             view2.bottom == view2.superview!.bottom ~ 100
-            
-//            view1.height  == view1.superview!.height - 40  ~ 100
             view2.height  == 40 ~ 100
         }
         
@@ -169,7 +174,12 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
 
         
     }
-    
+
+    deinit {
+        if let notificationToken = notificationToken {
+            Realm().removeNotification(notificationToken)
+        }
+    }
     func initializeRealm() {
         
         openAccessLabel?.removeFromSuperview()
@@ -193,7 +203,9 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         categoriesCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout1)
         categoriesCollectionView?.backgroundColor = UIColor.whiteColor()
         categoriesCollectionView!.registerClass(EKCategoryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
+        categoriesCollectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        categoriesCollectionView?.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
+
         categoriesCollectionView?.delegate = self
         categoriesCollectionView?.dataSource = self
         
@@ -246,7 +258,7 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         view.layoutSubviews()
     }
 
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         if collectionView == categoriesCollectionView! {
             return rootCategories!.count
@@ -286,10 +298,25 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
         return UICollectionViewCell()
     }
     
-    func emoticonForIndexPath(indexPath: NSIndexPath) -> Emoticon {
-        return currentCategory!.values[indexPath.item]
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        if collectionView == categoriesCollectionView! {
+            switch (kind) {
+            case UICollectionElementKindSectionHeader:
+                var view = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier, forIndexPath: indexPath) as! EKSectionHeaderView
+                if let attributedString = attributedStringForSection(indexPath.section) {
+                    view.attributedText = attributedString
+                }
+                return view
+            case UICollectionElementKindSectionFooter:
+                var view = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier, forIndexPath: indexPath) as! UICollectionReusableView
+                return view
+            default:
+                return UICollectionReusableView(frame: CGRectZero)
+            }
+        }
+        return UICollectionReusableView(frame: CGRectZero)
     }
-    
+
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
         if collectionView == categoriesCollectionView! {
@@ -311,7 +338,46 @@ class KeyboardViewController: UIInputViewController, UICollectionViewDelegateFlo
 
     }
 
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if collectionView == categoriesCollectionView! {
+            return headerSizeForSection(section)
+        } else {
+            return CGSizeZero
+        }
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSizeZero
+    }
+    
+    func headerSizeForSection(section: Int) -> CGSize {
+        if let attributedString = attributedStringForSection(section) {
+            var size = TTTAttributedLabel.sizeThatFitsAttributedString(attributedString, withConstraints: EKSectionHeaderView.labelMaxSize, limitedToNumberOfLines: 0)
+            return size
+        }
+        return CGSizeZero
+    }
+
     // MARK: - ()
+    func emoticonForIndexPath(indexPath: NSIndexPath) -> Emoticon {
+        return currentCategory!.values[indexPath.item]
+    }
+    
+    var attributedStringCache = [Int: NSAttributedString]()
+    func attributedStringForSection(section:Int) -> NSAttributedString? {
+        if let cached = attributedStringCache[section] {
+            return cached
+        }
+        let name = rootCategories[section].name
+        let style = "font-family: 'HelveticaNeue-Light';font-size:3em;"
+        let outputHtml = "<h2 style=\"\(style)\">\(name)</h2>"
+        if let string = NSAttributedString(data: outputHtml.dataUsingEncoding(NSUTF8StringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil, error: nil) {
+            attributedStringCache[section] = string
+            return string
+        }
+        return nil
+    }
+
     func categoryForIndexPath(indexPath: NSIndexPath) -> Category {
         return rootCategories![indexPath.section].values[indexPath.item]
     }

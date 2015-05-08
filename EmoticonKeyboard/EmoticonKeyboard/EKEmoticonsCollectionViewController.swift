@@ -40,12 +40,6 @@ class EKEmoticonsCollectionViewController: UICollectionViewController, UICollect
 
     // MARK: UICollectionViewDataSource
 
-//    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-//        //#warning Incomplete method implementation -- Return the number of sections
-//        return 0
-//    }
-
-
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         //#warning Incomplete method implementation -- Return the number of items in the section
         return category!.values.count
@@ -85,7 +79,6 @@ class EKEmoticonsCollectionViewController: UICollectionViewController, UICollect
             cell.backgroundColor = UIColor.clearColor()
         }
     }
-
     
     // MARK: - ()
     func emoticonForIndexPath(indexPath: NSIndexPath) -> Emoticon {
@@ -102,6 +95,5 @@ class EKEmoticonsCollectionViewController: UICollectionViewController, UICollect
         sizeCache[text] = size
         return size
     }
-
 
 }
