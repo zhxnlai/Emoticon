@@ -3,6 +3,7 @@
 
 pod 'SwiftyJSON'
 pod 'ZLBalancedFlowLayout'
+pod 'ReactiveUI'
 pod 'Realm', git: 'https://github.com/realm/realm-cocoa.git'
 pod 'RealmSwift'
 pod 'TTTAttributedLabel'

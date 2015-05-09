@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import TTTAttributedLabel
 import ZLBalancedFlowLayout
+import ReactiveUI
 
 let reuseIdentifier = "Cell", headerIdentifier = "header", footerIdentifier = "footer"
 
@@ -22,6 +23,10 @@ class EKMainCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Emoticon Keyboard"
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .Plain) { button in
+            self.navigationController?.pushViewController(EKSettingsTableViewController(style: .Grouped), animated: true)
+        }
         
         // Register cell classes
         collectionView!.registerClass(EKCategoryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
