@@ -11,6 +11,7 @@ import RealmSwift
 import ZLBalancedFlowLayout
 import Cartography
 import TTTAttributedLabel
+import ReactiveUI
 
 let reuseIdentifier = "Cell", headerIdentifier = "header", footerIdentifier = "footer"
 let appGroupId = "group.com.axcel.EmoticonKeyboard"
@@ -110,6 +111,8 @@ class KeyboardViewController: UIInputViewController {
         }
     }
     
+    var deleteTimer: NSTimer?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -167,7 +170,17 @@ class KeyboardViewController: UIInputViewController {
         
         deleteButton = UIButton.buttonWithType(.System) as! UIButton
         deleteButton.setTitle(NSLocalizedString("⌫", comment: "Title for 'Delete' button"), forState: .Normal)
-        deleteButton.addTarget(self, action: "deleteText", forControlEvents: .TouchUpInside)
+        deleteButton.addAction({button in
+            self.deleteText()
+            self.deleteTimer = NSTimer.scheduledTimerWithTimeInterval(0.3, action: {timer in
+                self.deleteTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, action: {timer in
+                    self.deleteText()
+                    }, repeats: true)
+                }, repeats: false)
+            }, forControlEvents: .TouchDown)
+        deleteButton.addAction({button in
+            self.deleteTimer?.invalidate()
+            }, forControlEvents: .TouchUpInside | .TouchUpOutside | .TouchCancel)
         
         for button in [nextKeyboardButton, menuButton, spaceButton, enterButton, deleteButton] {
             button.sizeToFit()
