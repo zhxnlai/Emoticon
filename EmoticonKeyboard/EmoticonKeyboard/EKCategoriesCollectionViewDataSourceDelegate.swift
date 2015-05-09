@@ -64,7 +64,21 @@ class EKCategoriesCollectionViewDataSourceDelegate: NSObject, UICollectionViewDa
             didSelectCategory(categoryForIndexPath(indexPath))
         }
     }
-    
+    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
+        if var cell = collectionView.cellForItemAtIndexPath(indexPath) {
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                cell.alpha = 0.5
+            })
+        }
+    }
+    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+        if var cell = collectionView.cellForItemAtIndexPath(indexPath) {
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                cell.alpha = 1
+            })
+        }
+    }
+
     // MARK: - UICollectionViewDelegateFlowLayout
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return sizeForString(categoryForIndexPath(indexPath).name)
@@ -91,11 +105,16 @@ class EKCategoriesCollectionViewDataSourceDelegate: NSObject, UICollectionViewDa
         return rootCategories[indexPath.section].values[indexPath.item]
     }
     
+    var attributedStringCache = [Int: NSAttributedString]()
     func attributedStringForSection(section:Int) -> NSAttributedString? {
+        if let cached = attributedStringCache[section] {
+            return cached
+        }
         let name = rootCategories[section].name
         let style = "font-family: 'HelveticaNeue-Light';font-size:\(sectionHeaderFontSize);"
         let outputHtml = "<h2 style=\"\(style)\">\(name)</h2>"
         if let string = NSAttributedString(data: outputHtml.dataUsingEncoding(NSUTF8StringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil, error: nil) {
+            attributedStringCache[section] = string
             return string
         }
         return nil
@@ -110,7 +129,6 @@ class EKCategoriesCollectionViewDataSourceDelegate: NSObject, UICollectionViewDa
         var size = (text as NSString).sizeWithAttributes([NSFontAttributeName: UIFont.systemFontOfSize(14.0)])
         size = CGSize(width: min(maxStringWidth, size.width), height: size.height)
         sizeCache[text] = size
-        //        println("\(text): \(size)")
         return size
     }
     
