@@ -33,8 +33,8 @@ class EKMainCollectionViewController: UICollectionViewController {
         collectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         collectionView?.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
 
-        var rootCategories = Realm().objects(RootCategory)
-        dataSourceDelegate.rootCategories = rootCategories
+        var primaryCategories = Realm().objects(PrimaryCategory)
+        dataSourceDelegate.primaryCategories = primaryCategories
         dataSourceDelegate.didSelectCategory = {category in
             var layout = ZLBalancedFlowLayout()
             layout.headerReferenceSize = CGSizeZero

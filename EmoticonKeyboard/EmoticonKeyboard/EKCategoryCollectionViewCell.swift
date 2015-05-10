@@ -17,6 +17,12 @@ class EKCategoryCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var color = UIColor.blackColor() {
+        didSet {
+            titleLabel.textColor = color
+        }
+    }
+    
     private var titleLabel = UILabel()
     
     override init(frame: CGRect) {

@@ -8,20 +8,30 @@
 
 import RealmSwift
 
-// Emoticon model
-class Emoticon: Object {
-    dynamic var value = ""
-    dynamic var owner: Category? // Can be optional
+// PrimaryCategory model
+class PrimaryCategory: Object {
+    dynamic var name = ""
+    let values = List<SecondaryCategory>()
+}
+
+// SecondaryCategory model
+class SecondaryCategory: Object {
+    dynamic var name = ""
+    dynamic var parent: PrimaryCategory?
+    let values = List<Category>()
 }
 
 // Category model
 class Category: Object {
     dynamic var name = ""
+    dynamic var parent: SecondaryCategory?
     let values = List<Emoticon>()
 }
 
-// RootCategory model
-class RootCategory: Object {
-    dynamic var name = ""
-    let values = List<Category>()
+// Emoticon model
+class Emoticon: Object {
+    dynamic var value = ""
+    dynamic var owner: Category? // Can be optional
+    dynamic var useCount = 0
+    dynamic var lastUsed = NSDate()
 }

@@ -35,9 +35,9 @@ class KeyboardViewController: UIInputViewController {
     var categoriesCollectionViewDataSourceDelegate = EKCategoriesCollectionViewDataSourceDelegate()
     var emoticonsCollectionViewDataSourceDelegate = EKEmoticonsCollectionViewDataSourceDelegate()
     
-    var rootCategories : Results<RootCategory>! {
+    var primaryCategories : Results<PrimaryCategory>! {
         didSet {
-            categoriesCollectionViewDataSourceDelegate.rootCategories = rootCategories
+            categoriesCollectionViewDataSourceDelegate.primaryCategories = primaryCategories
             categoriesCollectionView?.reloadData()
         }
     }
@@ -226,7 +226,7 @@ class KeyboardViewController: UIInputViewController {
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(appGroupId)!
         let realmPath = directory.path!.stringByAppendingPathComponent("default.realm")
         Realm.defaultPath = realmPath
-        rootCategories = Realm().objects(RootCategory)
+        primaryCategories = Realm().objects(PrimaryCategory)
         
         // init collection views
         var layout1 = ZLBalancedFlowLayout()

@@ -12,30 +12,53 @@ import TTTAttributedLabel
 
 class EKCategoriesCollectionViewDataSourceDelegate: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    var rootCategories : Results<RootCategory>!
+    var primaryCategories : Results<PrimaryCategory>! {
+        didSet {
+            categoryIndexCached = [NSIndexPath : (Int, Int)]()
+            numberOfItemsCache = [Int: Int]()
+            attributedStringCache = [Int: NSAttributedString]()
+        }
+    }
     var didSelectCategory: (Category -> ())?
     var sectionHeaderFontSize = "5em"
     
     // MARK: UICollectionViewDataSource
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if let rootCategories = rootCategories {
-            return rootCategories.count
+        if let primaryCategories = primaryCategories {
+            return primaryCategories.count
         }
         return 0
     }
     
+    var numberOfItemsCache = [Int: Int]()
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let rootCategories = rootCategories {
-            return rootCategories[section].values.count
+        if let primaryCategories = primaryCategories {
+            if let cached = numberOfItemsCache[section] {
+                return cached
+            }
+            var numberOfItems = 0
+            for secondaryCategory in primaryCategories[section].values {
+                numberOfItems += secondaryCategory.values.count
+            }
+            numberOfItemsCache[section] = numberOfItems
+            return numberOfItems
         }
         return 0
     }
     
+    let colors = [
+        UIColor(red:  83/255.0, green:  89/255.0, blue:  91/255.0, alpha: 1),
+        UIColor(red: 142/255.0, green: 146/255.0, blue: 148/255.0, alpha: 1),
+        UIColor(red: 110/255.0, green: 115/255.0, blue: 117/255.0, alpha: 1),
+        UIColor(red:  57/255.0, green:  62/255.0, blue:  64/255.0, alpha: 1),
+        UIColor(red:  23/255.0, green:  26/255.0, blue:  28/255.0, alpha: 1),
+    ]
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! EKCategoryCollectionViewCell
         
-        let category = categoryForIndexPath(indexPath)
+        let (sndCategory, p, category, i) = secondaryCategoryAndCategoryForIndexPath(indexPath)
         cell.title = category.name
+        cell.color = colors[p%colors.count]
         
         return cell
     }
@@ -101,8 +124,28 @@ class EKCategoriesCollectionViewDataSourceDelegate: NSObject, UICollectionViewDa
     }
     
     // MARK: - ()
+    var categoryIndexCached = [NSIndexPath : (Int, Int)]()
+    func secondaryCategoryAndCategoryForIndexPath(indexPath: NSIndexPath) -> (SecondaryCategory, Int, Category, Int) {
+        let secondaryCategories = primaryCategories[indexPath.section].values
+        if let cached = categoryIndexCached[indexPath] {
+            let (p, s) = cached
+            return (secondaryCategories[p], p, secondaryCategories[p].values[s], s)
+        }
+        var item = indexPath.item
+        for i in 0..<secondaryCategories.count {
+            let secondaryCategory = secondaryCategories[i]
+            if item - secondaryCategory.values.count < 0 {
+                categoryIndexCached[indexPath] = (i, item)
+               return (secondaryCategory, i, secondaryCategory.values[item], item)
+            } else {
+                item -= secondaryCategory.values.count
+            }
+        }
+        return (secondaryCategories.first!, 0, secondaryCategories.first!.values.first!, 0)
+    }
     func categoryForIndexPath(indexPath: NSIndexPath) -> Category {
-        return rootCategories[indexPath.section].values[indexPath.item]
+        let (_, _, c, _) = secondaryCategoryAndCategoryForIndexPath(indexPath)
+        return c
     }
     
     var attributedStringCache = [Int: NSAttributedString]()
@@ -110,7 +153,7 @@ class EKCategoriesCollectionViewDataSourceDelegate: NSObject, UICollectionViewDa
         if let cached = attributedStringCache[section] {
             return cached
         }
-        let name = rootCategories[section].name
+        let name = primaryCategories[section].name
         let style = "font-family: 'HelveticaNeue-Light';font-size:\(sectionHeaderFontSize);"
         let outputHtml = "<h2 style=\"\(style)\">\(name)</h2>"
         if let string = NSAttributedString(data: outputHtml.dataUsingEncoding(NSUTF8StringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil, error: nil) {

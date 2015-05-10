@@ -1,4 +1,4 @@
-//
+ //
 //  AppDelegate.swift
 //  EmoticonKeyboard
 //
@@ -32,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.rootViewController = UINavigationController(rootViewController: viewController)
             window.makeKeyAndVisible()
         }
+        
         initRealmIfNeeded()
         
         let sharedDefaults = NSUserDefaults(suiteName: appGroupId)!
@@ -68,6 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let realmPath = directory.path!.stringByAppendingPathComponent("default.realm")
         Realm.defaultPath = realmPath
 
+        let schemaVersion = UInt(1)
+        setSchemaVersion(schemaVersion, Realm.defaultPath, { migration, oldSchemaVersion in
+            if oldSchemaVersion < schemaVersion {
+//                migration.enumerate(Category.className()) { oldObject, newObject in
+//                }
+            }
+        })
+
         let realm = Realm()
         realm.write {
             realm.deleteAll()
@@ -77,33 +86,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
         
-        if let path = NSBundle.mainBundle().pathForResource("compressed", ofType: "json"), data = NSData(contentsOfFile: path) {
-            let rootCategories = JSON(data: data)
+        if let path = NSBundle.mainBundle().pathForResource("result", ofType: "json"), data = NSData(contentsOfFile: path) {
+            let result = JSON(data: data)
             realm.write {
-                for (name: String, categories: JSON) in rootCategories {
-                    var rc = RootCategory()
-                    rc.name = name
-                    realm.add(rc)
-
-                    for (name: String, emoticons: JSON) in categories {
-                        var c = Category()
-                        c.name = name
-                        realm.add(c)
-                        rc.values.append(c)
+                let categories = result["categories"]
+                for (primaryCategory: String, secondaryCategories: JSON) in categories {
+                    var primC = PrimaryCategory()
+                    primC.name = primaryCategory
+                    realm.add(primC)
+                    
+                    for (secondaryCategory: String, categories: JSON) in secondaryCategories {
+                        var sndC = SecondaryCategory()
+                        sndC.name = secondaryCategory
+                        sndC.parent = primC
+                        realm.add(sndC)
+                        primC.values.append(sndC)
                         
-                        if let emoticons = emoticons.array {
-                            for value in emoticons {
-                                if let value = value.string {
-                                    var e = Emoticon()
-                                    e.value = value
-                                    e.owner = c
-                                    c.values.append(e)
-                                    realm.add(e)
+                        if let categories = categories.array {
+                            for category in categories {
+                                if let category = category.string {
+                                    var c = Category()
+                                    c.name = category
+                                    c.parent = sndC
+                                    realm.add(c)
+                                    sndC.values.append(c)
                                 }
                             }
                         }
                     }
                 }
+
+                
+                let emoticons = result["emoticons"]
+                for (category: String, emoticonsArray: JSON) in emoticons {
+                    var c = realm.objects(Category).filter("name = '\(category)'").first!
+                    if let emoticonsArray = emoticonsArray.array {
+                        for value in emoticonsArray {
+                            if let value = value.string {
+                                var e = Emoticon()
+                                e.value = value
+                                e.owner = c
+                                realm.add(e)
+                                c.values.append(e)
+                            }
+                        }
+                    }
+
+                }
+
             }
             
             println("added categories: \(realm.objects(Category).count)")

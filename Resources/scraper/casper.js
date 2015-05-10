@@ -15,19 +15,26 @@ function getCategoriesAndLinks() {
       links[a.innerText] = link;
     }
   };
-  var lis = Array.prototype.slice.call(document.querySelectorAll("#menu-main-menu > li"));
-  lis.pop();
-  lis.forEach(function(a) {
-    var subCategories = {};
+  var primaryCategories = Array.prototype.slice.call(document.querySelectorAll("#menu-main-menu > li"));
+  primaryCategories.pop();
+  primaryCategories.forEach(function(a) {
+    var secondaryCategories = {};
     Array.prototype.forEach.call(a.querySelectorAll("#"+a.id+" > ul > li"), function(aa) {
-      var subsubCategories = Array.prototype.map.call(aa.querySelectorAll("#"+aa.id+" > ul > li > a"), function(aaa) {
+      var categories = Array.prototype.map.call(aa.querySelectorAll("#"+aa.id+" > ul > li > a"), function(aaa) {
         addLink(aaa);
         return aaa.innerText;
       });
       addLink(aa.querySelector("a"));
-      subCategories[aa.querySelector("a").innerText] = subsubCategories;
+      var secondaryCategoryName = aa.querySelector("a").innerText;
+      console.log(secondaryCategoryName);
+      if (categories.length === 0) {
+        secondaryCategories[secondaryCategoryName] = [secondaryCategoryName];
+      } else {
+        secondaryCategories[secondaryCategoryName] = categories;
+      }
     });
-    categories[a.querySelector("a").innerText] = subCategories;
+    console.log(Object.keys(secondaryCategories));
+    categories[a.querySelector("a").innerText] = secondaryCategories;
   });
 
   return {
