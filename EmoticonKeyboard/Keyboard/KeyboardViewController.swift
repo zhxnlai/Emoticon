@@ -256,6 +256,8 @@ class KeyboardViewController: UIInputViewController {
         emoticonsCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout2)
         emoticonsCollectionView?.backgroundColor = UIColor.whiteColor()
         emoticonsCollectionView?.registerClass(EKEmoticonCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        emoticonsCollectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        emoticonsCollectionView?.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
         emoticonsCollectionView?.delegate = emoticonsCollectionViewDataSourceDelegate
         emoticonsCollectionView?.dataSource = emoticonsCollectionViewDataSourceDelegate
         
@@ -275,6 +277,11 @@ class KeyboardViewController: UIInputViewController {
         // layout
         
         for collectionView in [categoriesCollectionView!, emoticonsCollectionView!] {
+//            collectionView.backgroundColor = UIColor.whiteColor()
+//            collectionView.registerClass(EKEmoticonCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+//            collectionView.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+//            collectionView.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
+
             collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
             layout(collectionView, collectionViews) { view1, view2 in
                 view1.top == view2.top

@@ -27,8 +27,11 @@ class EKEmoticonsCollectionViewController: UICollectionViewController {
 
         // Register cell classes
         self.collectionView!.registerClass(EKEmoticonCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
+        collectionView?.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
 
         dataSourceDelegate.category = category
+        dataSourceDelegate.hideSectionHeader = true
         dataSourceDelegate.didSelectEmoticon = {emoticon in
             let text = emoticon.value
             var pasteboard = UIPasteboard.generalPasteboard()

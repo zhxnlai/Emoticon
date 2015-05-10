@@ -12,9 +12,15 @@ import TTTAttributedLabel
 
 class EKEmoticonsCollectionViewDataSourceDelegate: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
-    var category: Category?
+    var category: Category? {
+        didSet {
+            attributedStringCache.removeAll()
+        }
+    }
     var didSelectEmoticon: (Emoticon -> ())?
-
+    var sectionHeaderFontSize = "2em"
+    var hideSectionHeader = false
+    
     // MARK: UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if let category = category {
@@ -32,9 +38,21 @@ class EKEmoticonsCollectionViewDataSourceDelegate: NSObject, UICollectionViewDat
         return cell
     }
     
-    // MARK: - UICollectionViewDelegateFlowLayout
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return sizeForString(emoticonForIndexPath(indexPath).value)
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        switch (kind) {
+        case UICollectionElementKindSectionHeader:
+            var view = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier, forIndexPath: indexPath) as! EKSectionHeaderView
+            if let attributedString = attributedStringForSection(indexPath.section) {
+                view.attributedText = attributedString
+            }
+            return view
+        case UICollectionElementKindSectionFooter:
+            var view = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier, forIndexPath: indexPath) as! UICollectionReusableView
+            return view
+        default:
+            break
+        }
+        return UICollectionReusableView(frame: CGRectZero)
     }
     
     // MARK: UICollectionViewDelegate
@@ -57,11 +75,52 @@ class EKEmoticonsCollectionViewDataSourceDelegate: NSObject, UICollectionViewDat
         }
     }
     
+    // MARK: - UICollectionViewDelegateFlowLayout
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return sizeForString(emoticonForIndexPath(indexPath).value)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return headerSizeForSection(section)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSizeZero
+    }
+    
+    func headerSizeForSection(section: Int) -> CGSize {
+        if hideSectionHeader {
+            return CGSizeZero
+        }
+        if let attributedString = attributedStringForSection(section) {
+            var size = TTTAttributedLabel.sizeThatFitsAttributedString(attributedString, withConstraints: EKSectionHeaderView.labelMaxSize, limitedToNumberOfLines: 0)
+            return size
+        }
+        return CGSizeZero
+    }
+
     // MARK: - ()
     func emoticonForIndexPath(indexPath: NSIndexPath) -> Emoticon {
         return category!.values[indexPath.item]
     }
     
+    var attributedStringCache = [Int: NSAttributedString]()
+    func attributedStringForSection(section:Int) -> NSAttributedString? {
+        if let cached = attributedStringCache[section] {
+            return cached
+        }
+        if let category = category {
+            let name = category.name
+            let style = "font-family: 'HelveticaNeue-Light';font-size:\(sectionHeaderFontSize);"
+            let outputHtml = "<h2 style=\"\(style)\">\(name)</h2>"
+            if let string = NSAttributedString(data: outputHtml.dataUsingEncoding(NSUTF8StringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil, error: nil) {
+                attributedStringCache[section] = string
+                return string
+            }
+        }
+        return nil
+    }
+
     var sizeCache = [String: CGSize]()
     func sizeForString(text: String) -> CGSize {
         if let cached = sizeCache[text] {
