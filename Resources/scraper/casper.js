@@ -1,3 +1,17 @@
+/*
+result = [
+  {
+    name: ...
+    values: [
+      {
+        name: ...
+        values: [...]
+      }
+    ]
+  }
+]
+*/
+
 var casper = require('casper').create({
   pageSettings: {
     // javascriptEnabled: false,
@@ -7,7 +21,7 @@ var casper = require('casper').create({
 var fs = require('fs');
 
 function getCategoriesAndLinks() {
-  var categories = {};
+  var categories = [];
   var links = {};
   var addLink = function (a) {
     var link = a.getAttribute("href");
@@ -17,24 +31,26 @@ function getCategoriesAndLinks() {
   };
   var primaryCategories = Array.prototype.slice.call(document.querySelectorAll("#menu-main-menu > li"));
   primaryCategories.pop();
-  primaryCategories.forEach(function(a) {
-    var secondaryCategories = {};
-    Array.prototype.forEach.call(a.querySelectorAll("#"+a.id+" > ul > li"), function(aa) {
+  categories = primaryCategories.map(function(a) {
+    var secondaryCategories = Array.prototype.map.call(a.querySelectorAll("#"+a.id+" > ul > li"), function(aa) {
       var categories = Array.prototype.map.call(aa.querySelectorAll("#"+aa.id+" > ul > li > a"), function(aaa) {
         addLink(aaa);
         return aaa.innerText;
       });
       addLink(aa.querySelector("a"));
       var secondaryCategoryName = aa.querySelector("a").innerText;
-      console.log(secondaryCategoryName);
       if (categories.length === 0) {
-        secondaryCategories[secondaryCategoryName] = [secondaryCategoryName];
-      } else {
-        secondaryCategories[secondaryCategoryName] = categories;
+        categories = [secondaryCategoryName];
       }
+      return {
+        name: secondaryCategoryName,
+        values: categories
+      };
     });
-    console.log(Object.keys(secondaryCategories));
-    categories[a.querySelector("a").innerText] = secondaryCategories;
+    return {
+      name: a.querySelector("a").innerText,
+      values: secondaryCategories
+    };
   });
 
   return {
@@ -56,7 +72,7 @@ function getEmoticons() {
 }
 
 var result = {
-  categories: {},
+  categories: [],
   emoticons: {}
 };
 var links = {};

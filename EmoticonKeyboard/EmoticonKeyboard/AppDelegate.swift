@@ -69,14 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let realmPath = directory.path!.stringByAppendingPathComponent("default.realm")
         Realm.defaultPath = realmPath
 
-        let schemaVersion = UInt(1)
-        setSchemaVersion(schemaVersion, Realm.defaultPath, { migration, oldSchemaVersion in
-            if oldSchemaVersion < schemaVersion {
-//                migration.enumerate(Category.className()) { oldObject, newObject in
-//                }
-            }
-        })
-
+        migrate()
+        
         let realm = Realm()
         realm.write {
             realm.deleteAll()
@@ -89,33 +83,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let path = NSBundle.mainBundle().pathForResource("result", ofType: "json"), data = NSData(contentsOfFile: path) {
             let result = JSON(data: data)
             realm.write {
-                let categories = result["categories"]
-                for (primaryCategory: String, secondaryCategories: JSON) in categories {
-                    var primC = PrimaryCategory()
-                    primC.name = primaryCategory
-                    realm.add(primC)
-                    
-                    for (secondaryCategory: String, categories: JSON) in secondaryCategories {
-                        var sndC = SecondaryCategory()
-                        sndC.name = secondaryCategory
-                        sndC.parent = primC
-                        realm.add(sndC)
-                        primC.values.append(sndC)
-                        
-                        if let categories = categories.array {
-                            for category in categories {
-                                if let category = category.string {
-                                    var c = Category()
-                                    c.name = category
-                                    c.parent = sndC
-                                    realm.add(c)
-                                    sndC.values.append(c)
+                if let primaryCategories = result["categories"].array {
+                    for primaryCategory in primaryCategories {
+                        var primC = PrimaryCategory()
+                        primC.name = primaryCategory["name"].stringValue
+                        realm.add(primC)
+                        if let secondaryCategories = primaryCategory["values"].array {
+                            for secondaryCategory in secondaryCategories {
+                                var sndC = SecondaryCategory()
+                                sndC.name = secondaryCategory["name"].stringValue
+                                sndC.parent = primC
+                                realm.add(sndC)
+                                primC.values.append(sndC)
+                                if let categories = secondaryCategory["values"].array {
+                                    for category in categories {
+                                        if let category = category.string {
+                                            var c = Category()
+                                            c.name = category
+                                            c.parent = sndC
+                                            realm.add(c)
+                                            sndC.values.append(c)
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
-
                 
                 let emoticons = result["emoticons"]
                 for (category: String, emoticonsArray: JSON) in emoticons {

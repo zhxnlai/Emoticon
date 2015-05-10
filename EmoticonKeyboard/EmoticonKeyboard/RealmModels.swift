@@ -8,6 +8,16 @@
 
 import RealmSwift
 
+let schemaVersion = UInt(1)
+let migrate = { () in
+    setSchemaVersion(schemaVersion, Realm.defaultPath, { migration, oldSchemaVersion in
+        if oldSchemaVersion < schemaVersion {
+            //                migration.enumerate(Category.className()) { oldObject, newObject in
+            //                }
+        }
+    })
+}
+
 // PrimaryCategory model
 class PrimaryCategory: Object {
     dynamic var name = ""
