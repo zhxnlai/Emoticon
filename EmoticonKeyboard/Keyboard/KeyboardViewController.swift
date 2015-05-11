@@ -23,6 +23,7 @@ class KeyboardViewController: UIInputViewController {
 
     var nextKeyboardButton: UIButton!
     var menuButton: UIButton!
+    var recentButton: UIButton!
     var spaceButton: UIButton!
     var enterButton: UIButton!
     var deleteButton: UIButton!
@@ -34,6 +35,7 @@ class KeyboardViewController: UIInputViewController {
     
     var categoriesCollectionViewDataSourceDelegate = EKCategoriesCollectionViewDataSourceDelegate()
     var emoticonsCollectionViewDataSourceDelegate = EKEmoticonsCollectionViewDataSourceDelegate()
+    var queryEmoticonsCollectionViewDataSourceDelegate = EKQueryEmoticonsCollectionViewDataSourceDelegate()
     
     var primaryCategories : Results<PrimaryCategory>! {
         didSet {
@@ -44,6 +46,8 @@ class KeyboardViewController: UIInputViewController {
     var currentCategory: Category? {
         didSet {
             emoticonsCollectionViewDataSourceDelegate.category = currentCategory
+            emoticonsCollectionView?.delegate = emoticonsCollectionViewDataSourceDelegate
+            emoticonsCollectionView?.dataSource = emoticonsCollectionViewDataSourceDelegate
             emoticonsCollectionView?.reloadData()
         }
     }
@@ -160,6 +164,10 @@ class KeyboardViewController: UIInputViewController {
         menuButton.setTitle(NSLocalizedString("🚀", comment: "Title for 'Menu' button"), forState: .Normal)
         menuButton.addTarget(self, action: "showMenu", forControlEvents: .TouchUpInside)
         
+        recentButton = UIButton.buttonWithType(.System) as! UIButton
+        recentButton.setTitle(NSLocalizedString("🕘", comment: "Title for 'Recent' button"), forState: .Normal)
+        recentButton.addTarget(self, action: "showRecent", forControlEvents: .TouchUpInside)
+        
         spaceButton = UIButton.buttonWithType(.System) as! UIButton
         spaceButton.setTitle(NSLocalizedString("Space", comment: "Title for 'Space' button"), forState: .Normal)
         spaceButton.addTarget(self, action: "insertSpace", forControlEvents: .TouchUpInside)
@@ -182,7 +190,7 @@ class KeyboardViewController: UIInputViewController {
             self.deleteTimer?.invalidate()
             }, forControlEvents: .TouchUpInside | .TouchUpOutside | .TouchCancel)
         
-        for button in [nextKeyboardButton, menuButton, spaceButton, enterButton, deleteButton] {
+        for button in [nextKeyboardButton, menuButton, recentButton, spaceButton, enterButton, deleteButton] {
             button.sizeToFit()
             button.setTranslatesAutoresizingMaskIntoConstraints(false)
             button.titleLabel?.font = UIFont(name: "HelveticaNeue-Light", size: 18)
@@ -195,8 +203,13 @@ class KeyboardViewController: UIInputViewController {
             view1.centerY == view2.centerY
         }
         
-        layout(deleteButton, controlViews) { view1, view2 in
-            view1.right == view2.right-10
+        layout(menuButton, nextKeyboardButton) { view1, view2 in
+            view1.centerX == view2.centerX + 35
+            view1.centerY == view2.centerY
+        }
+
+        layout(recentButton, menuButton) { view1, view2 in
+            view1.centerX == view2.centerX + 35
             view1.centerY == view2.centerY
         }
         
@@ -205,16 +218,15 @@ class KeyboardViewController: UIInputViewController {
             view1.centerY == view2.centerY
         }
 
-        layout(menuButton, nextKeyboardButton) { view1, view2 in
-            view1.left == view2.right + 20
-            view1.centerY == view2.centerY
-        }
-        
         layout(enterButton, deleteButton) { view1, view2 in
-            view1.right == view2.left - 20
+            view1.centerX == view2.centerX - 40
             view1.centerY == view2.centerY
         }
         
+        layout(deleteButton, controlViews) { view1, view2 in
+            view1.right == view2.right-10
+            view1.centerY == view2.centerY
+        }
 
         if isOpenAccessGranted() {
             initializeRealm()
@@ -225,42 +237,32 @@ class KeyboardViewController: UIInputViewController {
         
         let directory: NSURL = NSFileManager.defaultManager().containerURLForSecurityApplicationGroupIdentifier(appGroupId)!
         let realmPath = directory.path!.stringByAppendingPathComponent("default.realm")
-        Realm.defaultPath = realmPath
+        if Realm.defaultPath != realmPath {
+            Realm.defaultPath = realmPath
+            migrate()
+        }
+
         primaryCategories = Realm().objects(PrimaryCategory)
         
         // init collection views
-        var layout1 = ZLBalancedFlowLayout()
-        layout1.headerReferenceSize = CGSizeZero
-        layout1.footerReferenceSize = CGSizeZero
-        layout1.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout1.rowHeight = 30
-        layout1.enforcesRowHeight = true
-        layout1.minimumLineSpacing = 0
-        layout1.minimumInteritemSpacing = 5
-        categoriesCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout1)
+        categoriesCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: ZLBalancedFlowLayout.layoutForMainKeyboard())
         categoriesCollectionView?.backgroundColor = UIColor.whiteColor()
         categoriesCollectionView?.registerClass(EKCategoryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         categoriesCollectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         categoriesCollectionView?.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
         categoriesCollectionView?.delegate = categoriesCollectionViewDataSourceDelegate
         categoriesCollectionView?.dataSource = categoriesCollectionViewDataSourceDelegate
-        
-        var layout2 = ZLBalancedFlowLayout()
-        layout2.headerReferenceSize = CGSizeZero
-        layout2.footerReferenceSize = CGSizeZero
-        layout2.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        layout2.rowHeight = 25
-        layout2.enforcesRowHeight = true
-        layout2.minimumLineSpacing = 0
-        layout2.minimumInteritemSpacing = 5
-        emoticonsCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout2)
+        categoriesCollectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
+        emoticonsCollectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: ZLBalancedFlowLayout.layoutForEmoticons())
         emoticonsCollectionView?.backgroundColor = UIColor.whiteColor()
         emoticonsCollectionView?.registerClass(EKEmoticonCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         emoticonsCollectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
         emoticonsCollectionView?.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
         emoticonsCollectionView?.delegate = emoticonsCollectionViewDataSourceDelegate
         emoticonsCollectionView?.dataSource = emoticonsCollectionViewDataSourceDelegate
-        
+        emoticonsCollectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
+
         collectionViews.addSubview(emoticonsCollectionView!)
         collectionViews.addSubview(categoriesCollectionView!)
         
@@ -273,16 +275,12 @@ class KeyboardViewController: UIInputViewController {
         emoticonsCollectionViewDataSourceDelegate.didSelectEmoticon = {emoticon in
             self.insertText(emoticon.value)
         }
+        queryEmoticonsCollectionViewDataSourceDelegate.didSelectEmoticon = {emoticon in
+            self.insertText(emoticon.value)
+        }
         
         // layout
-        
         for collectionView in [categoriesCollectionView!, emoticonsCollectionView!] {
-//            collectionView.backgroundColor = UIColor.whiteColor()
-//            collectionView.registerClass(EKEmoticonCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-//            collectionView.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-//            collectionView.registerClass(UICollectionReusableView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: footerIdentifier)
-
-            collectionView.setTranslatesAutoresizingMaskIntoConstraints(false)
             layout(collectionView, collectionViews) { view1, view2 in
                 view1.top == view2.top
                 view1.bottom == view2.bottom
@@ -295,7 +293,9 @@ class KeyboardViewController: UIInputViewController {
         // Set realm notification block
         notificationToken = Realm().addNotificationBlock { [unowned self] note, realm in
             self.categoriesCollectionView?.reloadData()
-            self.emoticonsCollectionView?.reloadData()
+            if let currentCategory = self.currentCategory {
+                self.emoticonsCollectionView?.reloadData()
+            }
         }
         
     }
@@ -328,6 +328,16 @@ class KeyboardViewController: UIInputViewController {
     }
     func showMenu() {
         categoriesCollectionView?.hidden = false
+    }
+    func showRecent() {
+        categoriesCollectionView?.hidden = true
+        currentCategory = nil
+        
+        queryEmoticonsCollectionViewDataSourceDelegate.sectionHeaderTitle = "Recent"
+        queryEmoticonsCollectionViewDataSourceDelegate.emoticons = Realm.recentlyUsedEmoticons()
+        emoticonsCollectionView?.delegate = queryEmoticonsCollectionViewDataSourceDelegate
+        emoticonsCollectionView?.dataSource = queryEmoticonsCollectionViewDataSourceDelegate
+        emoticonsCollectionView?.reloadData()
     }
 
     // MARK: UIInputController

@@ -12,10 +12,16 @@ let schemaVersion = UInt(1)
 let migrate = { () in
     setSchemaVersion(schemaVersion, Realm.defaultPath, { migration, oldSchemaVersion in
         if oldSchemaVersion < schemaVersion {
-            //                migration.enumerate(Category.className()) { oldObject, newObject in
-            //                }
+            // migration.enumerate(Category.className()) { oldObject, newObject in
+            // }
         }
     })
+}
+
+extension Realm {
+    class func recentlyUsedEmoticons() -> Results<Emoticon> {
+        return Realm().objects(Emoticon).filter("useCount > 0").sorted("lastUsed", ascending: false)
+    }
 }
 
 // PrimaryCategory model

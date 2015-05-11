@@ -14,19 +14,25 @@ class EKEmoticonsCollectionViewDataSourceDelegate: NSObject, UICollectionViewDat
     
     var category: Category? {
         didSet {
-            attributedStringCache.removeAll()
+            if let category = category  {
+                sectionHeaderTitle = category.name
+            }
+            clearCache()
         }
     }
+    var sectionHeaderTitle: String?
+    
+    func clearCache() {
+        attributedStringCache.removeAll()
+    }
+    
     var didSelectEmoticon: (Emoticon -> ())?
     var sectionHeaderFontSize = "2em"
     var hideSectionHeader = false
     
     // MARK: UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let category = category {
-            return category.values.count
-        }
-        return 0
+        return numberOfEmoticons()
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -58,8 +64,14 @@ class EKEmoticonsCollectionViewDataSourceDelegate: NSObject, UICollectionViewDat
     // MARK: UICollectionViewDelegate
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+        var emoticon = emoticonForIndexPath(indexPath)
+        var realm = Realm()
+        realm.write {
+            emoticon.useCount++
+            emoticon.lastUsed = NSDate()
+        }
         if let didSelectEmoticon = didSelectEmoticon {
-            didSelectEmoticon(emoticonForIndexPath(indexPath))
+            didSelectEmoticon(emoticon)
         }
     }
     
@@ -100,6 +112,12 @@ class EKEmoticonsCollectionViewDataSourceDelegate: NSObject, UICollectionViewDat
     }
 
     // MARK: - ()
+    func numberOfEmoticons() -> Int {
+        if let category = category {
+            return category.values.count
+        }
+        return 0
+    }
     func emoticonForIndexPath(indexPath: NSIndexPath) -> Emoticon {
         return category!.values[indexPath.item]
     }
@@ -109,8 +127,7 @@ class EKEmoticonsCollectionViewDataSourceDelegate: NSObject, UICollectionViewDat
         if let cached = attributedStringCache[section] {
             return cached
         }
-        if let category = category {
-            let name = category.name
+        if let name = sectionHeaderTitle {
             let style = "font-family: 'HelveticaNeue-Light';font-size:\(sectionHeaderFontSize);"
             let outputHtml = "<h2 style=\"\(style)\">\(name)</h2>"
             if let string = NSAttributedString(data: outputHtml.dataUsingEncoding(NSUTF8StringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil, error: nil) {

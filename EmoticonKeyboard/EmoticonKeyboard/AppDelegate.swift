@@ -22,13 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let window = window {
-            var layout = ZLBalancedFlowLayout()
-            layout.headerReferenceSize = CGSize(width: 100, height: 100)
-            layout.footerReferenceSize = CGSize(width: 100, height: 100)
-            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            layout.rowHeight = 40
-            layout.minimumLineSpacing = 5
-            var viewController = EKMainCollectionViewController(collectionViewLayout: layout)
+            var viewController = EKMainCollectionViewController(collectionViewLayout: ZLBalancedFlowLayout.layoutForMain())
             window.rootViewController = UINavigationController(rootViewController: viewController)
             window.makeKeyAndVisible()
         }
@@ -72,9 +66,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         migrate()
         
         let realm = Realm()
-        realm.write {
-            realm.deleteAll()
-        }
+//        realm.write {
+//            realm.deleteAll()
+//        }
 
         if realm.objects(Category).count > 0 && realm.objects(Emoticon).count > 0 {
             return

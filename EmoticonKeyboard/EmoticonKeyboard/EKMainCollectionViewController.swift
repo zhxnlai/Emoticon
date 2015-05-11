@@ -27,7 +27,14 @@ class EKMainCollectionViewController: UICollectionViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Settings", style: .Plain) { button in
             self.navigationController?.pushViewController(EKSettingsTableViewController(style: .Grouped), animated: true)
         }
-        
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Recent", style: .Plain) { button in
+            var queryEmoticonsCVC = EKQueryEmoticonsCollectionViewController(collectionViewLayout:  ZLBalancedFlowLayout.layoutForEmoticons())
+            queryEmoticonsCVC.title = "Recent"
+            queryEmoticonsCVC.dataSourceDelegate.emoticons = Realm.recentlyUsedEmoticons()
+            self.navigationController?.pushViewController(queryEmoticonsCVC, animated: true)
+        }
+
         // Register cell classes
         collectionView!.registerClass(EKCategoryCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView?.registerClass(EKSectionHeaderView.classForCoder(), forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: headerIdentifier)
@@ -36,15 +43,7 @@ class EKMainCollectionViewController: UICollectionViewController {
         var primaryCategories = Realm().objects(PrimaryCategory)
         dataSourceDelegate.primaryCategories = primaryCategories
         dataSourceDelegate.didSelectCategory = {category in
-            var layout = ZLBalancedFlowLayout()
-            layout.headerReferenceSize = CGSizeZero
-            layout.footerReferenceSize = CGSizeZero
-            layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-            layout.rowHeight = 25
-            layout.enforcesRowHeight = true
-            layout.minimumLineSpacing = 0
-            layout.minimumInteritemSpacing = 5
-            var emoticonsController = EKEmoticonsCollectionViewController(collectionViewLayout: layout)
+            var emoticonsController = EKEmoticonsCollectionViewController(collectionViewLayout: ZLBalancedFlowLayout.layoutForEmoticons())
             emoticonsController.category = category
             self.navigationController?.pushViewController(emoticonsController, animated: true)
         }
