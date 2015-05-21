@@ -49,7 +49,7 @@ class EKCategoryCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let titleInset = UIEdgeInsets(top: 0, left: 3, bottom: 0, right: 3)
+        let titleInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 //        let titleInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         titleLabel.frame = UIEdgeInsetsInsetRect(bounds, titleInset)
     }

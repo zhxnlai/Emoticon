@@ -16,6 +16,7 @@ extension ZLBalancedFlowLayout {
         layout.footerReferenceSize = CGSize(width: 100, height: 100)
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.rowHeight = 40
+        layout.enforcesRowHeight = true
         layout.minimumLineSpacing = 5
 //        layout.minimumLineSpacing = 0
 //        layout.minimumInteritemSpacing = 0
@@ -29,7 +30,7 @@ extension ZLBalancedFlowLayout {
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.rowHeight = 25
         layout.enforcesRowHeight = true
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 5
         return layout
     }

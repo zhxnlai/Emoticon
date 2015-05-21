@@ -49,6 +49,7 @@ class KeyboardViewController: UIInputViewController {
             emoticonsCollectionView?.delegate = emoticonsCollectionViewDataSourceDelegate
             emoticonsCollectionView?.dataSource = emoticonsCollectionViewDataSourceDelegate
             emoticonsCollectionView?.reloadData()
+            emoticonsCollectionView.setContentOffset(CGPointZero, animated: false)
         }
     }
     
