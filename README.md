@@ -1,5 +1,24 @@
 # Emoticon
-An Emoticon Keyboard offering thousands of curated emoticons.
+An Emoticon Keyboard offering a curated list of emoticons.
+
+Preview
+---
+![keyboard](Previews/keyboard.gif)
+
+Requirement
+---
+- iOS 8.3 (realmSwift)
+- Xcode 6.3
+- Apple iOS developer account
+
+Build with Xcode
+---
+- install Pod packages
+- setup App Groups
+
+Emoticons
+---
+The emoticons are scraped from http://japaneseemoticons.me/ using the casper.js script.
 
 Usage
 ---
